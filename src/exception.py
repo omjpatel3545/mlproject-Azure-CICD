@@ -1,7 +1,6 @@
 import sys
 import logging
-import src.logger
-logging.basicConfig(level=logging.INFO)
+from src.logger import logging
 
 def error_message_details(error, error_details:sys):
     _,_,exc_tb = error_details.exc_info()
