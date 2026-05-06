@@ -13,9 +13,20 @@ from dataclasses import dataclass
 
 @dataclass
 class DataTransformationConfig:
+    '''
+    It saves the constants that are used in data tranformation process. It might includes save paths, model name, dataset path
+    '''
     preprocessor_obj_file_path = os.path.join('artifacts','preprocessor.pkl')
 
 class DataTranformation:
+
+    '''
+    It mainly does 3 things
+    1. Reads data
+    2. Transforms data
+    3. Saves the transformer
+    '''
+
     def __init__(self):
         self.data_tranformation_config = DataTransformationConfig()
 
@@ -37,7 +48,7 @@ class DataTranformation:
             num_pipeline= Pipeline(
                 steps=[
                     ("imputer",SimpleImputer(strategy="median")),
-                    ("scaler",StandardScaler())
+                    ("scaler",StandardScaler()) # mean - 0 , std - 1
                 ]
             )
 
@@ -58,7 +69,7 @@ class DataTranformation:
                 ("cat_pipelines",cat_pipeline,categorical_columns)
             ])
         
-            return preprocessor
+            return preprocessor # this is a ready to use transformer
         except Exception as e:
             raise CustomException(e,sys)
         
@@ -106,7 +117,7 @@ class DataTranformation:
             return(
                 train_arr,
                 test_arr,
-                self.data_tranformation_config.preprocessor_obj_file_path
+                self.data_tranformation_config.preprocessor_obj_file_path # path of our transformer machine (preprocessor.pkl)
             )
         except Exception as e:
             raise CustomException(e,sys)
